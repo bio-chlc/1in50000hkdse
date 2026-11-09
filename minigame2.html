@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1 in 50,000 · An HKDSE Study Life</title>
+  <style>
+    :root {
+      --bg: #f6f5f0;
+      --card: #ffffff;
+      --ink: #1c1c1a;
+      --muted: #66645e;
+      --border: #e2dfd7;
+      --accent: #2c4c3e;
+      --accent-soft: #e8f0ec;
+      --warn: #9e472a;
+      --warn-soft: #faeae5;
+      --gold: #8a6d1b;
+      --gold-soft: #fbf5e0;
+      --font-serif: "Georgia", "Times New Roman", "Songti SC", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(246, 245, 240, 0.94);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: bold;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: normal;
+      margin-left: 8px;
+    }
+
+    .status-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-pill strong {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 28px auto;
+      padding: 0 20px;
+    }
+
+    .hero-card, .event-card, .pause-card, .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: normal;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      margin-top: 16px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: #2c2b28;
+    }
+
+    .small-muted {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 640px) {
+      .toggle-grid, .four-front-grid, .subject-grid, .bias-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .toggle-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      background: #faf9f5;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-box.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .toggle-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-on {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .badge-off {
+      background: #dcd9d0;
+      color: #444;
+    }
+
+    .badge-theory {
+      background: var(--gold-soft);
+      color: var(--gold);
+      border: 1px solid #e6d8a7;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      text-align: center;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn:disabled {
+      background: #b5b2a8;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #efede6;
+    }
+
+    .choice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .choice-btn {
+      text-align: left;
+      background: #faf9f5;
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .choice-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .choice-btn strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .four-front-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .front-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      background: #fcfbf9;
+    }
+
+    .front-box h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .subject-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      background: #faf9f5;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .subject-card.selected {
+      border: 2px solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .subject-card.mutex-disabled {
+      opacity: 0.52;
+      background: #efede8;
+    }
+
+    .subject-card .code-tag {
+      font-family: monospace;
+      font-size: 0.76rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #eae7df;
+      float: right;
+    }
+
+    .mutex-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: var(--warn);
+      background: var(--warn-soft);
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    .bias-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0 18px 0;
+    }
+
+    .bias-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #faf9f5;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    .bias-card.active {
+      border: 2px solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .pause-card {
+      background: #fcfaf2;
+      border-color: #dfd4b2;
+    }
+
+    .year-stamp {
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: 185px 1fr 48px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 0.84rem;
+    }
+
+    .meter-bar {
+      height: 8px;
+      background: #e6e3da;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .meter-fill.core-fill {
+      background: #5b6d8a;
+    }
+
+    .log-entry {
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+      margin: 10px 0;
+      font-size: 0.92rem;
+    }
+
+    .life-memorial {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 28px;
+      background: #fffefb;
+      margin-top: 20px;
+    }
+
+    .dse-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    .dse-table th, .dse-table td {
+      border-bottom: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .dse-table th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    textarea.reflection-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      margin: 10px 0;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    1 in 50,000 <span>An HKDSE Study Life Simulator (S3–S6)</span>
+  </div>
+  <div class="status-bar" id="statusBar" style="display:none;">
+    <div class="stat-pill">Stage: <strong id="statForm">S3</strong></div>
+    <div class="stat-pill">RIASEC: <strong id="statCode">???</strong></div>
+    <div class="stat-pill">Elective Fit: <strong id="statCongruency">-</strong></div>
+    <div class="stat-pill">Engagement: <strong id="statEngagement">50</strong>/100</div>
+    <div class="stat-pill">Well-being: <strong id="statWellbeing">70</strong>/100</div>
+  </div>
+</header>
+
+<div class="container" id="gameRoot"></div>
+
+<script>
+const PROFILES = [
+  {
+    id: "tsz_hin",
+    name: "Chan Tsz-hin (陳子軒)",
+    sex: "Male",
+    age: 14,
+    district: "Kwun Tong Public Housing Estate",
+    family: "Grassroots family; father is a licensed electrician, mother works in a cha chaan teng. Household income is tight.",
+    school: "Band 2 Aided Boys' Secondary School (Pragmatic & Technical Subculture)",
+    code: "RIC",
+    codeDesc: "Realistic (R) · Investigative (I) · Conventional (C)",
+    hobbyClue: "You love disassembling broken routers, building Arduino gadgets, and solving hands-on mechanical puzzles, but extended English essays and dramatic roleplays exhaust you.",
+    parentPress: "Your parents hope you pick 'practical' business or science subjects (like Economics, BAFS Accounting, or Chemistry) that guarantee stable employment.",
+    coreBase: { chi: 46, eng: 34, math: 68 },
+    coreClue: "Strong natural aptitude in Mathematics, moderate foundation in Chinese, but struggles significantly with English vocabulary and extended writing.",
+    fourFront: {
+      strengths: "Hands-on spatial troubleshooting, algorithmic & mathematical logic, high task persistence with tools and concrete systems.",
+      weaknesses: "Low confidence in English Language; verbal fatigue in open-ended humanities essays.",
+      resources: "Well-equipped school Design & Tech Maker Lab and a supportive ICT/Math teaching team.",
+      stressors: "Shared 280 sq.ft. flat with no quiet study desk; pressure to contribute to family income early."
+    }
+  },
+  {
+    id: "ka_yi",
+    name: "Wong Ka-yi (黃嘉怡)",
+    sex: "Female",
+    age: 14,
+    district: "Sha Tin Private Housing Estate",
+    family: "Middle-class civil-servant family. Both parents closely monitor your report card and compare you with cousins.",
+    school: "Band 1 Traditional Grant School (High Academic & STEM Prestige Press)",
+    code: "ASE",
+    codeDesc: "Artistic (A) · Social (S) · Enterprising (E)",
+    hobbyClue: "You come alive when directing school drama scripts, writing bilingual columns, mentoring S1 juniors, and pitching campaign ideas, whereas abstract calculus and laboratory calculations leave you drained.",
+    parentPress: "Your parents strongly insist on a heavy Science/Math package (Physics, Chemistry, Biology, or M2) so you can keep medical or science degrees open.",
+    coreBase: { chi: 68, eng: 72, math: 35 },
+    coreClue: "Excels effortlessly in both Chinese and English reading/writing, but experiences acute anxiety and low scores in Compulsory Mathematics.",
+    fourFront: {
+      strengths: "Divergent creative expression, bilingual storytelling, empathetic communication, persuasive leadership.",
+      weaknesses: "High test anxiety and low baseline mastery in Mathematics and quantitative proofs.",
+      resources: "Vibrant school editorial/debate society and an attentive Career & Life Planning teacher.",
+      stressors: "Intense parental & Band 1 peer press equating Science/M2 streams with 'superior intelligence'."
+    }
+  },
+  {
+    id: "cheuk_wing",
+    name: "Lam Cheuk-wing (林卓穎)",
+    sex: "Female",
+    age: 14,
+    district: "Tin Shui Wai Public Housing",
+    family: "Single-parent household; as the eldest sister, you help cook and tutor your P4 younger brother every evening.",
+    school: "Band 2 Co-educational Neighborhood School (Warm Relationship Climate)",
+    code: "SIA",
+    codeDesc: "Social (S) · Investigative (I) · Artistic (A)",
+    hobbyClue: "You are fascinated by human biology, community health, and illustrating visual study notes to help classmates understand difficult concepts.",
+    parentPress: "Your mother trusts your judgment but worries about subjects that require expensive studio materials or late after-school rehearsals.",
+    coreBase: { chi: 62, eng: 52, math: 44 },
+    coreClue: "Solid and reflective in Chinese, steady in English, but slightly shaky in abstract algebra and geometry under time pressure.",
+    fourFront: {
+      strengths: "Deep empathy, curiosity about human welfare & life sciences, collaborative learning.",
+      weaknesses: "Vulnerability to stereotype threat in quantitative physical sciences and Mathematics; chronic time scarcity.",
+      resources: "Strong school social worker & supportive teacher-student relationship climate (Moos).",
+      stressors: "Two hours of daily household caregiving duties; zero budget for private tutorial schools."
+    }
+  },
+  {
+    id: "ho_yin",
+    name: "Cheung Ho-yin (張浩然)",
+    sex: "Male",
+    age: 14,
+    district: "Mong Kok Tenement / Commercial District",
+    family: "Small-business family running an electronics & mobile accessories stall in Mong Kok.",
+    school: "Band 1B–2A District School (Strong Collegiate & Commercial Subculture)",
+    code: "ECR",
+    codeDesc: "Enterprising (E) · Conventional (C) · Realistic (R)",
+    hobbyClue: "You run a profitable online sneaker-reselling page, enjoy organizing event budgets, and prefer concrete real-world results over abstract literary theories.",
+    parentPress: "Your father wants you to take BAFS (Accounting), Economics, and ICT to modernize the family business.",
+    coreBase: { chi: 48, eng: 50, math: 58 },
+    coreClue: "Practical and quick with commercial calculations in Mathematics, and conversational in Chinese and English, though careless with Classical Chinese and formal grammar.",
+    fourFront: {
+      strengths: "Negotiation, financial numeracy, practical resource coordination, high social energy.",
+      weaknesses: "Low patience for classical literary analysis or lengthy historical essays.",
+      resources: "Active Junior Achievement (JA) company programme and real-world market exposure.",
+      stressors: "Temptation to neglect Core language revision for part-time trading and peer leisure."
+    }
+  },
+  {
+    id: "wing_sum",
+    name: "Leung Wing-sum (梁詠心)",
+    sex: "Female",
+    age: 14,
+    district: "Kowloon Tong Residential Area",
+    family: "Professional household; both parents are Certified Public Accountants (CPAs) who value corporate order and compliance.",
+    school: "Band 1 Elite Girls' School (High System Maintenance & Competitive Climate)",
+    code: "IRA",
+    codeDesc: "Investigative (I) · Realistic (R) · Artistic (A)",
+    hobbyClue: "You spend weekends sketching architectural structures, doing ecological field photography, and testing physics and mathematical models.",
+    parentPress: "Your parents expect you to choose BAFS (Accounting), Economics, and History to prepare for a corporate BBA/Law degree.",
+    coreBase: { chi: 54, eng: 66, math: 72 },
+    coreClue: "High analytical fluency in Mathematics and English, with a moderate, functional standard in Chinese.",
+    fourFront: {
+      strengths: "Analytical inquiry, spatial-visual synthesis, independent deep-focus research.",
+      weaknesses: "Aversion to repetitive clerical bookkeeping and conformist social roleplay.",
+      resources: "Access to university science/design workshops and strong family financial support.",
+      stressors: "Rigid parental career script causing painful discrepancy between Perceived Self and Ideal Self (Pervin, 1968)."
+    }
+  },
+  {
+    id: "pak_hei",
+    name: "Ho Pak-hei (何柏希)",
+    sex: "Male",
+    age: 14,
+    district: "Tai Po Disciplined Services Quarters",
+    family: "Active, sports-loving household; father is a senior fireman, mother works as a community centre programme assistant.",
+    school: "Band 2–3 Co-educational School (Strong Athletics Tradition, Low Academic Press)",
+    code: "RSE",
+    codeDesc: "Realistic (R) · Social (S) · Enterprising (E)",
+    hobbyClue: "You captain the junior athletics and basketball teams, love learning about sports physiology and coaching teammates, and hate sitting still for silent desk work.",
+    parentPress: "Your relatives advise you to avoid 'non-academic' subjects like PE and instead pick Economics and BAFS (Accounting) to look 'more scholarly'.",
+    coreBase: { chi: 44, eng: 33, math: 36 },
+    coreClue: "Energetic in oral communication, but has weak academic foundations in written English and Mathematics—at high risk of failing Cores without disciplined effort.",
+    fourFront: {
+      strengths: "Kinesthetic coordination, team leadership, high physical resilience, interpersonal warmth.",
+      weaknesses: "Weak foundation in Core English and Mathematics; short attention span in passive lectures.",
+      resources: "Dedicated Physical Education department, fitness lab, and supportive sports coaches.",
+      stressors: "Heavy inter-school training schedule and peer subculture that dismisses academic study."
+    }
+  },
+  {
+    id: "tsz_yau",
+    name: "Cheng Tsz-yau (鄭芷柔)",
+    sex: "Female",
+    age: 14,
+    district: "Sai Ying Pun Old Urban Neighborhood",
+    family: "Scholarly grassroots family; grandfather is a retired Chinese calligraphy and history teacher who raised you on classical chronicles.",
+    school: "Band 1B Chinese-Medium (CMI) Secondary School (Strong Cultural & Humanities Ethos)",
+    code: "CSA",
+    codeDesc: "Conventional (C) · Social (S) · Artistic (A)",
+    hobbyClue: "You love organizing historical archives, curating museum-style exhibitions, and writing classical and modern Chinese essays, but struggle with experimental physics.",
+    parentPress: "Your school class teacher encourages top S3 students to take Biology, Chemistry, and M1 to boost the school's STEM university admission rate.",
+    coreBase: { chi: 76, eng: 48, math: 46 },
+    coreClue: "Outstanding mastery of Core Chinese (classical and modern), with modest, average foundations in English and Mathematics.",
+    fourFront: {
+      strengths: "Archival organization, historical empathy, exceptional Chinese literacy, meticulous textual care.",
+      weaknesses: "Low interest in laboratory sciences; hesitant in English spontaneous speaking and higher algebra.",
+      resources: "Rich school library archive, Chinese History society, and supportive humanities teachers.",
+      stressors: "School-wide streaming policy that channels high-ranking S3 students into the Science class."
+    }
+  },
+  {
+    id: "chun_kit",
+    name: "Yip Chun-kit (葉俊傑)",
+    sex: "Male",
+    age: 14,
+    district: "Sham Shui Po Subdivided Flat",
+    family: "Cross-border grassroots family; arrived in Hong Kong in Primary 5. Father works in construction logistics, mother does garment alterations.",
+    school: "Band 2 STEM-Focused Secondary School (Supportive Math/Science Culture)",
+    code: "ICR",
+    codeDesc: "Investigative (I) · Conventional (C) · Realistic (R)",
+    hobbyClue: "You solve Olympiad calculus and statistics problems for fun and love coding data simulations, but feel self-conscious about your English accent and humanities debates.",
+    parentPress: "Your parents hope you become an engineer or actuary, but worry whether your English grade will let you enter a local university.",
+    coreBase: { chi: 55, eng: 31, math: 78 },
+    coreClue: "Exceptional talent in Mathematics, steady in Chinese, but severely behind in Core English—needs sustained effort and Core focus to pass HKDSE English.",
+    fourFront: {
+      strengths: "Advanced mathematical modelling, systematic data organization, high academic grit.",
+      weaknesses: "Severe foundation gap in Core English Language; social withdrawal in verbal humanities.",
+      resources: "Dedicated Math & Science Olympiad mentors and free after-school English remedial clinic.",
+      stressors: "Noisy subdivided living environment and high anxiety over the HKDSE English minimum requirement."
+    }
+  }
+];
+
+const SUBJECTS = [
+  { id: "m1", name: "Math Extended Part M1 (Calculus & Stats)", primary: "I", secondary: "C", mutex: "MATH_EXT", setting: "Applied statistical modelling & calculus data press" },
+  { id: "m2", name: "Math Extended Part M2 (Algebra & Calculus)", primary: "I", secondary: "R", mutex: "MATH_EXT", setting: "Rigorous abstract proof, mechanics & symbolic calculus press" },
+  { id: "phy", name: "Physics", primary: "I", secondary: "R", mutex: null, setting: "Rigorous mathematical & experimental lab press" },
+  { id: "chem", name: "Chemistry", primary: "I", secondary: "C", mutex: null, setting: "Structured molecular analysis & precision lab setting" },
+  { id: "bio", name: "Biology", primary: "I", secondary: "S", mutex: null, setting: "Life-science inquiry & ecological investigation" },
+  { id: "ict", name: "Information & Comm. Tech (ICT)", primary: "R", secondary: "I", mutex: null, setting: "Applied computing, algorithms & project SBA" },
+  { id: "dat", name: "Design & Applied Tech (DAT)", primary: "R", secondary: "A", mutex: null, setting: "Undermanned maker workshop; hands-on prototyping" },
+  { id: "pe", name: "Physical Education (DSE PE)", primary: "R", secondary: "S", mutex: null, setting: "High physical participation, sports science & physiological press" },
+  { id: "va", name: "Visual Arts", primary: "A", secondary: "R", mutex: null, setting: "High-autonomy studio setting; heavy portfolio SBA" },
+  { id: "lit", name: "Literature in English / Chinese", primary: "A", secondary: "S", mutex: null, setting: "Undermanned seminar setting; expressive & critical reading" },
+  { id: "chist", name: "Chinese History", primary: "S", secondary: "C", mutex: null, setting: "Dynastic institutional analysis, archival mastery & essay press" },
+  { id: "hist", name: "History (World History)", primary: "S", secondary: "I", mutex: null, setting: "Humanities inquiry, source evaluation & essay argument" },
+  { id: "hmsc", name: "Health Mgmt & Social Care (HMSC)", primary: "S", secondary: "A", mutex: null, setting: "Community welfare, human development & field reflection" },
+  { id: "econ", name: "Economics", primary: "E", secondary: "I", mutex: null, setting: "Market logic, policy analysis & competitive cohort press" },
+  { id: "bafs_m", name: "BAFS (Business Management)", primary: "E", secondary: "S", mutex: "BAFS_MOD", setting: "Leadership, marketing strategy & group case studies" },
+  { id: "bafs_a", name: "BAFS (Accounting)", primary: "C", secondary: "E", mutex: "BAFS_MOD", setting: "High system maintenance, ledger rules & precision press" }
+];
+
+let state = {
+  revealCode: true,
+  enableNeufeld: true,
+  step: "START",
+  profile: null,
+  selectedElectives: [],
+  engagement: 50,
+  wellbeing: 72,
+  selfEfficacy: 60,
+  hardworkingScore: 0,
+  coreBiasScore: 0,
+  studyBiasMode: "BALANCED", // "CORE", "BALANCED", "ELECTIVE"
+  coreMastery: { chi: 50, eng: 50, math: 50 },
+  subjectMastery: {},
+  droppedSubject: null,
+  dropReason: null,
+  logs: [],
+  reflections: {}
+};
+
+function calcSubjectCongruency(profileCode, subj) {
+  let score = 0;
+  const p1 = profileCode[0], p2 = profileCode[1], p3 = profileCode[2];
+  if (subj.primary === p1) score += 3;
+  else if (subj.primary === p2) score += 2;
+  else if (subj.primary === p3) score += 1;
+
+  if (subj.secondary === p1 || subj.secondary === p2 || subj.secondary === p3) {
+    score += 1;
+  }
+  return score; // 0 to 4
+}
+
+function calcCoreCongruencyLabel(profile, coreKey) {
+  const base = profile.coreBase[coreKey];
+  if (base >= 65) return "High Natural Fit";
+  if (base >= 48) return "Moderate Fit";
+  return "Low Fit (Needs Hardworking Effort)";
+}
+
+function getTotalCongruency() {
+  if (!state.profile || state.selectedElectives.length === 0) return 0;
+  return state.selectedElectives.reduce((acc, id) => {
+    const s = SUBJECTS.find(x => x.id === id);
+    return acc + calcSubjectCongruency(state.profile.code, s);
+  }, 0);
+}
+
+function toggleElectiveSelection(subjId) {
+  const subj = SUBJECTS.find(x => x.id === subjId);
+  const isSel = state.selectedElectives.includes(subjId);
+
+  if (isSel) {
+    state.selectedElectives = state.selectedElectives.filter(x => x !== subjId);
+    return;
+  }
+
+  // Check if a mutually exclusive sibling is already selected
+  if (subj.mutex) {
+    const conflictId = state.selectedElectives.find(existingId => {
+      const ex = SUBJECTS.find(s => s.id === existingId);
+      return ex && ex.mutex === subj.mutex;
+    });
+    if (conflictId) {
+      // Replace the mutually exclusive sibling directly
+      const idx = state.selectedElectives.indexOf(conflictId);
+      state.selectedElectives[idx] = subjId;
+      return;
+    }
+  }
+
+  if (state.selectedElectives.length < 3) {
+    state.selectedElectives.push(subjId);
+  }
+}
+
+function syncElectiveMasteryDictionary() {
+  const p = state.profile;
+  const updated = {};
+  state.selectedElectives.forEach(id => {
+    if (typeof state.subjectMastery[id] === "number") {
+      updated[id] = state.subjectMastery[id];
+    } else {
+      const s = SUBJECTS.find(x => x.id === id);
+      const c = calcSubjectCongruency(p.code, s);
+      updated[id] = 46 + c * 4;
+    }
+  });
+  state.subjectMastery = updated;
+}
+
+function updateHeader() {
+  const bar = document.getElementById("statusBar");
+  if (state.step === "START") {
+    bar.style.display = "none";
+    return;
+  }
+  bar.style.display = "flex";
+  document.getElementById("statForm").textContent = state.step;
+  document.getElementById("statCode").textContent = state.revealCode ? state.profile.code : "??? (Hidden)";
+  const maxC = state.selectedElectives.length * 4;
+  document.getElementById("statCongruency").textContent =
+    state.selectedElectives.length > 0
+      ? (state.revealCode ? `${getTotalCongruency()}/${maxC}` : "Hidden")
+      : "-";
+  document.getElementById("statEngagement").textContent = Math.round(state.engagement);
+  document.getElementById("statWellbeing").textContent = Math.round(state.wellbeing);
+}
+
+function render() {
+  updateHeader();
+  const root = document.getElementById("gameRoot");
+  root.innerHTML = "";
+
+  if (state.step === "START") renderStart(root);
+  else if (state.step === "S3_PROFILE") renderS3Profile(root);
+  else if (state.step === "S3_NEGOTIATION") renderNegotiation(root);
+  else if (state.step === "S3_PARTICIPATION") renderParticipation(root);
+  else if (state.step === "S3_EVALUATION") renderEvaluation(root);
+  else if (state.step === "S4") renderS4(root);
+  else if (state.step === "S5_DROP") renderS5Drop(root);
+  else if (state.step === "S5") renderS5(root);
+  else if (state.step === "S6") renderS6(root);
+  else if (state.step === "SUMMARY") renderSummary(root);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderStart(root) {
+  const card = document.createElement("div");
+  card.className = "hero-card";
+  card.innerHTML = `
+    <div class="year-stamp">Hong Kong Secondary Education Simulation · Inspired by 1in8b.life</div>
+    <h1>Right now, ~50,000 Secondary 3 students in Hong Kong are choosing their HKDSE electives.</h1>
+    <p>You become one of them at random. You cannot choose which student profile you are born into—your family background, your school's environmental press, your Core subject foundations, and your innate RIASEC personality orientation are assigned by chance. How you select your 3 Category A electives, engage with your environment, and allocate your study effort from S3 to S6 will shape your HKDSE life outcome.</p>
+    <p class="small-muted">Theoretical Foundation: Holland's RIASEC & Person–Environment Interaction (Walsh, 1989) + The Tripartite Engagement Model (Neufeld et al., 2006).</p>
+
+    <h3>Configure Simulation Conditions Before Drawing Your Life</h3>
+    <div class="toggle-grid">
+      <div class="toggle-box ${state.revealCode ? "active" : ""}" id="toggleCode">
+        <div class="toggle-header">
+          <span>1. Reveal 3-Letter Holland Code</span>
+          <span class="badge ${state.revealCode ? "badge-on" : "badge-off"}">${state.revealCode ? "ON" : "OFF"}</span>
+        </div>
+        <p class="small-muted" style="margin:0;">
+          ${state.revealCode
+            ? "Explicitly displays the student's 3-letter RIASEC code and subject fit indicators during S3 streaming."
+            : "Masks the RIASEC code as '???'. You must infer personality fit from behavioral clues and Four-Front traits."}
+        </p>
+      </div>
+
+      <div class="toggle-box ${state.enableNeufeld ? "active" : ""}" id="toggleNeufeld">
+        <div class="toggle-header">
+          <span>2. Neufeld's Engagement Cycle</span>
+          <span class="badge ${state.enableNeufeld ? "badge-on" : "badge-off"}">${state.enableNeufeld ? "ON" : "OFF"}</span>
+        </div>
+        <p class="small-muted" style="margin:0;">
+          ${state.enableNeufeld
+            ? "Activates the 3-phase cycle: Negotiation (teacher conference), Participation (tasting classes), & Evaluation (appraisal + full subject re-selection)."
+            : "Static Fit Mode: Locks initial S3 subject choices directly into S4 with no environmental accommodation or tasting cycle."}
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top: 22px;">
+      <button class="btn" id="btnStartRandom" style="width:100%; font-size:1.02rem; padding:14px;">
+        🎲 Be Enrolled at Random (Draw 1 of 50,000 S3 Student Lives)
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  document.getElementById("toggleCode").onclick = () => {
+    state.revealCode = !state.revealCode;
+    render();
+  };
+  document.getElementById("toggleNeufeld").onclick = () => {
+    state.enableNeufeld = !state.enableNeufeld;
+    render();
+  };
+  document.getElementById("btnStartRandom").onclick = () => {
+    const chosen = PROFILES[Math.floor(Math.random() * PROFILES.length)];
+    startNewLife(chosen);
+  };
+}
+
+function startNewLife(profile) {
+  state.profile = profile;
+  state.selectedElectives = [];
+  state.engagement = state.enableNeufeld ? 56 : 45;
+  state.wellbeing = 74;
+  state.selfEfficacy = 60;
+  state.hardworkingScore = 0;
+  state.coreBiasScore = 0;
+  state.studyBiasMode = "BALANCED";
+  state.coreMastery = {
+    chi: profile.coreBase.chi,
+    eng: profile.coreBase.eng,
+    math: profile.coreBase.math
+  };
+  state.subjectMastery = {};
+  state.droppedSubject = null;
+  state.dropReason = null;
+  state.logs = [];
+  state.reflections = {};
+  state.step = "S3_PROFILE";
+  render();
+}
+
+function buildSubjectPickerGrid(containerEl) {
+  const p = state.profile;
+  SUBJECTS.forEach(subj => {
+    const isSel = state.selectedElectives.includes(subj.id);
+    const cong = calcSubjectCongruency(p.code, subj);
+
+    let mutexConflictName = null;
+    if (subj.mutex && !isSel) {
+      const otherId = state.selectedElectives.find(id => {
+        const s = SUBJECTS.find(x => x.id === id);
+        return s && s.mutex === subj.mutex;
+      });
+      if (otherId) {
+        mutexConflictName = SUBJECTS.find(x => x.id === otherId).name;
+      }
+    }
+
+    const box = document.createElement("div");
+    box.className = `subject-card ${isSel ? "selected" : ""} ${mutexConflictName ? "mutex-disabled" : ""}`;
+    box.innerHTML = `
+      <span class="code-tag">${state.revealCode ? `${subj.primary}${subj.secondary} · Fit ${cong}/4` : "Cat. A"}</span>
+      <strong>${subj.name}</strong>
+      <div class="small-muted" style="margin-top:4px; font-size:0.78rem;">${subj.setting}</div>
+      ${subj.mutex === "MATH_EXT" ? `<div class="mutex-tag">Mutually exclusive with ${subj.id === "m1" ? "M2" : "M1"}</div>` : ""}
+      ${subj.mutex === "BAFS_MOD" ? `<div class="mutex-tag">Mutually exclusive with ${subj.id === "bafs_m" ? "BAFS (Accounting)" : "BAFS (Business Mgmt)"}</div>` : ""}
+    `;
+    box.onclick = () => {
+      toggleElectiveSelection(subj.id);
+      render();
+    };
+    containerEl.appendChild(box);
+  });
+}
+
+function renderS3Profile(root) {
+  const p = state.profile;
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Secondary 3 · Age 14 · Student Registration Card</div>
+    <h2>You are ${p.name} (${p.sex}, Age ${p.age})</h2>
+    <p><strong>Living Environment:</strong> ${p.district}. ${p.family}</p>
+    <p><strong>School Setting & Social Climate (Moos / Stern):</strong> ${p.school}</p>
+    <p><strong>Everyday Interests & Behavioral Clues:</strong> ${p.hobbyClue}</p>
+    <p><strong>Core Subject Foundation (Chinese, English, Mathematics):</strong> ${p.coreClue}</p>
+    <p style="background:var(--warn-soft); padding:10px 14px; border-radius:8px; border-left:3px solid var(--warn);">
+      <strong>Environmental Press (Family & School Expectations):</strong> ${p.parentPress}
+    </p>
+
+    <div style="margin: 16px 0; padding: 12px 16px; background: var(--accent-soft); border-radius:8px;">
+      <strong>3-Letter Holland Personality Code (Walsh, 1989):</strong>
+      ${state.revealCode
+        ? `<span style="font-family:monospace; font-size:1.1rem; font-weight:bold; margin-left:8px;">${p.code}</span> — ${p.codeDesc}`
+        : `<span style="font-family:monospace; font-size:1.05rem; margin-left:8px;">??? (Unrevealed — Infer from behavioral clues & Four-Front assessment below)</span>`}
+    </div>
+
+    <h3>Wright & Lopez (2002) Four-Front Assessment (in Neufeld et al., 2006)</h3>
+    <div class="four-front-grid">
+      <div class="front-box">
+        <h4>1. Personal Strengths</h4>
+        <div>${p.fourFront.strengths}</div>
+      </div>
+      <div class="front-box">
+        <h4>2. Personal Weaknesses</h4>
+        <div>${p.fourFront.weaknesses}</div>
+      </div>
+      <div class="front-box">
+        <h4>3. Environmental Resources</h4>
+        <div>${p.fourFront.resources}</div>
+      </div>
+      <div class="front-box">
+        <h4>4. Environmental Stressors</h4>
+        <div>${p.fourFront.stressors}</div>
+      </div>
+    </div>
+
+    <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;" />
+    <h3>S3 Streaming: Select Your 3 Category A Electives (3X)</h3>
+    <p class="small-muted">Select 3 electives below. Note: <strong>M1 and M2 are mutually exclusive</strong>, and <strong>BAFS (Business Management) and BAFS (Accounting) are mutually exclusive</strong> (clicking one replaces the other).</p>
+
+    <div class="subject-grid" id="subjectGrid"></div>
+
+    <div style="margin-top:18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <span class="small-muted">Selected: <strong>${state.selectedElectives.length} / 3</strong> electives</span>
+      <button class="btn" id="btnConfirmS3" ${state.selectedElectives.length !== 3 ? "disabled" : ""}>
+        Submit Initial S3 Subject Selection Form →
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  buildSubjectPickerGrid(document.getElementById("subjectGrid"));
+
+  document.getElementById("btnConfirmS3").onclick = () => {
+    syncElectiveMasteryDictionary();
+    const names = state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ");
+    state.logs.push({
+      phase: "S3 Initial Selection",
+      text: `Submitted initial S3 elective form: ${names}.`
+    });
+    if (state.enableNeufeld) {
+      state.step = "S3_NEGOTIATION";
+    } else {
+      state.logs.push({
+        phase: "S3 Streaming Finalized (No Tripartite Intervention)",
+        text: "Without structured Negotiation, Tasting Participation, or Evaluation, your initial S3 choices were locked directly into S4."
+      });
+      state.step = "S4";
+    }
+    render();
+  };
+}
+
+function getLowestFitSelectedSubject() {
+  let worst = null;
+  let minScore = 99;
+  state.selectedElectives.forEach(id => {
+    const s = SUBJECTS.find(x => x.id === id);
+    const c = calcSubjectCongruency(state.profile.code, s);
+    if (c < minScore) {
+      minScore = c;
+      worst = s;
+    }
+  });
+  return { subject: worst, score: minScore };
+}
+
+function getBestUnselectedSubject(replacingSubj) {
+  let best = null;
+  let maxScore = -1;
+  SUBJECTS.forEach(s => {
+    if (!state.selectedElectives.includes(s.id)) {
+      const remainingIds = state.selectedElectives.filter(id => !replacingSubj || id !== replacingSubj.id);
+      const hasMutexConflict = s.mutex && remainingIds.some(remId => {
+        const remSubj = SUBJECTS.find(x => x.id === remId);
+        return remSubj && remSubj.mutex === s.mutex;
+      });
+      if (!hasMutexConflict) {
+        const c = calcSubjectCongruency(state.profile.code, s);
+        if (c > maxScore) {
+          maxScore = c;
+          best = s;
+        }
+      }
+    }
+  });
+  return { subject: best, score: maxScore };
+}
+
+function renderNegotiation(root) {
+  const p = state.profile;
+  const worst = getLowestFitSelectedSubject();
+  const bestAlt = getBestUnselectedSubject(worst.subject);
+
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Neufeld Tripartite Engagement Cycle · Phase 1 of 3</div>
+    <span class="badge badge-theory">Intervention 1: Negotiation (Mutual P–E Accommodation)</span>
+    <h2 style="margin-top:8px;">S3 Career & Life Planning Conference: Discussing Your Subject Combination</h2>
+    <p>According to <strong>Neufeld et al. (2006)</strong>, <em>Negotiation</em> is an ongoing process in which both the individual and the environment make adjustments to accommodate each other, tapping personal strengths and environmental resources.</p>
+    <p>Your CLP teacher sits down with you to review your initial choices: <strong>${state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ")}</strong> alongside your Four-Front profile.</p>
+    <p>During the conversation, the teacher highlights qualitative observations about how your strengths (<em>${p.fourFront.strengths}</em>) and environmental stressors (<em>${p.fourFront.stressors}</em>) interact with your chosen subjects, noting that <strong>${worst.subject.name}</strong> may pose higher friction than an alternative like <strong>${bestAlt.subject.name}</strong>.</p>
+
+    <div class="choice-list">
+      <button class="choice-btn" id="negSwap">
+        <strong>1. Negotiate Mutual Alignment with Teacher & Parents (Replace ${worst.subject.name} with ${bestAlt.subject.name})</strong>
+        <span class="small-muted">Present your Four-Front evidence during the tripartite conference to reframe family expectations and adjust ${worst.subject.name} to ${bestAlt.subject.name}.</span>
+      </button>
+      <button class="choice-btn" id="negResource">
+        <strong>2. Keep Current Electives, but Negotiate School Environmental Accommodations</strong>
+        <span class="small-muted">Retain your chosen combination, while negotiating concrete school accommodations (after-school library/workshop access, Core subject remedial support, and flexible SBA framing).</span>
+      </button>
+      <button class="choice-btn" id="negPassive">
+        <strong>3. Decline Active Negotiation & Leave Initial Form Unchanged</strong>
+        <span class="small-muted">Treat the conference as a routine formality, avoiding discussion of personal weaknesses or environmental stressors.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  document.getElementById("negSwap").onclick = () => {
+    const idx = state.selectedElectives.indexOf(worst.subject.id);
+    if (idx !== -1) {
+      state.selectedElectives[idx] = bestAlt.subject.id;
+      syncElectiveMasteryDictionary();
+      state.subjectMastery[bestAlt.subject.id] += 4;
+    }
+    state.engagement = Math.min(100, state.engagement + 16);
+    state.wellbeing = Math.min(100, state.wellbeing + 8);
+    state.logs.push({
+      phase: "Phase 1: Negotiation",
+      text: `Negotiated with teacher and parents to replace ${worst.subject.name} with ${bestAlt.subject.name}, aligning personal strengths with school resources.`
+    });
+    state.step = "S3_PARTICIPATION";
+    render();
+  };
+
+  document.getElementById("negResource").onclick = () => {
+    state.engagement = Math.min(100, state.engagement + 14);
+    state.selfEfficacy = Math.min(100, state.selfEfficacy + 6);
+    state.selectedElectives.forEach(id => { state.subjectMastery[id] += 4; });
+    state.coreMastery.chi += 2;
+    state.coreMastery.eng += 2;
+    state.coreMastery.math += 2;
+    state.logs.push({
+      phase: "Phase 1: Negotiation",
+      text: `Kept initial 3X combination and negotiated school resource accommodations (study room access, Core clinic & flexible SBA framing).`
+    });
+    state.step = "S3_PARTICIPATION";
+    render();
+  };
+
+  document.getElementById("negPassive").onclick = () => {
+    state.wellbeing = Math.max(10, state.wellbeing - 5);
+    state.logs.push({
+      phase: "Phase 1: Negotiation",
+      text: `Passed on negotiation; kept initial S3 choices without environmental accommodation.`
+    });
+    state.step = "S3_PARTICIPATION";
+    render();
+  };
+}
+
+function renderParticipation(root) {
+  const elecNames = state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ");
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Neufeld Tripartite Engagement Cycle · Phase 2 of 3</div>
+    <span class="badge badge-theory">Intervention 2: Participation (Cognitive, Physical & Emotional Activation)</span>
+    <h2 style="margin-top:8px;">S3-to-S4 Elective Tasting Classes & Experiential Workshops</h2>
+    <p>According to <strong>Neufeld et al. (2006)</strong>, while negotiation fits strengths with resources, <em>Participation</em> is the resulting activation of those strengths through active behavioral, cognitive, and emotional involvement (fostering <em>flow, mindfulness, and peer connectedness</em>).</p>
+    <p>Your school organizes a 2-week <strong>S4 Tasting Programme</strong> where you attend authentic lessons, laboratory/studio tryouts, and S5 peer sharing across the elective departments (currently previewing <strong>${elecNames}</strong>).</p>
+
+    <div class="choice-list">
+      <button class="choice-btn" id="partActive">
+        <strong>1. Wholehearted Hands-On & Emotional Participation</strong>
+        <span class="small-muted">Immerse yourself in the tasting tasks, test hands-on equipment or case discussions, connect with S5 peer mentors, and pay attention to which classrooms spark genuine flow versus emotional drain.</span>
+      </button>
+      <button class="choice-btn" id="partCognitive">
+        <strong>2. Passive Syllabus & Past-Paper Observation Only</strong>
+        <span class="small-muted">Sit quietly at the back to collect syllabus handouts and marking schemes without participating in the interactive group tasks or studio/lab tryouts.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  document.getElementById("partActive").onclick = () => {
+    state.engagement = Math.min(100, state.engagement + 16);
+    state.wellbeing = Math.min(100, state.wellbeing + 8);
+    state.selectedElectives.forEach(id => { state.subjectMastery[id] += 6; });
+    state.logs.push({
+      phase: "Phase 2: Participation",
+      text: `Actively participated in S3 Tasting Classes; experienced hands-on tasks and observed emotional flow across subjects.`
+    });
+    state.step = "S3_EVALUATION";
+    render();
+  };
+
+  document.getElementById("partCognitive").onclick = () => {
+    state.engagement = Math.min(100, state.engagement + 5);
+    state.selectedElectives.forEach(id => { state.subjectMastery[id] += 2; });
+    state.logs.push({
+      phase: "Phase 2: Participation",
+      text: `Attended S3 Tasting Classes passively, focusing on syllabus rules over experiential participation.`
+    });
+    state.step = "S3_EVALUATION";
+    render();
+  };
+}
+
+function renderEvaluation(root) {
+  const p = state.profile;
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Neufeld Tripartite Engagement Cycle · Phase 3 of 3</div>
+    <span class="badge badge-theory">Intervention 3: Evaluation (Bidirectional Appraisal & Full Subject Re-Selection)</span>
+    <h2 style="margin-top:8px;">Post-Tasting Bidirectional Appraisal & Final S4 Subject Confirmation</h2>
+    <p>In <strong>Neufeld et al. (2006)</strong>, <em>Evaluation</em> involves the bidirectional appraisal of both the self and the school environment—cultivating <em>self-efficacy, belonging, optimism</em>, and neutralizing <em>stereotype threat</em> (Steele, 1997).</p>
+    <p>Based on your Tasting Class experience, subject teachers share their qualitative appraisal of your current combination:</p>
+    <div class="log-entry">
+      <strong>Post-Tasting Bidirectional Appraisal Notes:</strong><br/>
+      ${state.selectedElectives.map(id => {
+        const s = SUBJECTS.find(x => x.id === id);
+        const c = calcSubjectCongruency(p.code, s);
+        const fitNarrative = c >= 3
+          ? "Strong P–E Resonance — Teachers observed natural flow, intrinsic curiosity, and strong task engagement."
+          : (c === 2
+              ? "Moderate P–E Fit — Manageable classroom demands, though sustained effort will be needed."
+              : "Low P–E Congruence Warning — High cognitive/emotional friction observed during tasting tasks; risk of Pervin self/ideal-self discrepancy.");
+        return `• <strong>${s.name}</strong>: ${fitNarrative}`;
+      }).join("<br/>")}
+    </div>
+
+    <h3>Final Pre-S4 Subject Combination Selector (You May Keep or Change Any / All 3 Electives)</h3>
+    <p class="small-muted">Before S4 officially starts, you have full freedom to modify 1, 2, or all 3 of your elective subjects below based on the tasting and evaluation evidence (M1/M2 and BAFS module mutual exclusivity rules apply).</p>
+
+    <div class="subject-grid" id="evalSubjectGrid"></div>
+    <p class="small-muted">Currently Selected (${state.selectedElectives.length}/3): <strong>${state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ") || "None"}</strong></p>
+
+    <h3>Select How You Conclude the Evaluation Appraisal</h3>
+    <div class="choice-list">
+      <button class="choice-btn" id="evalGrowth" ${state.selectedElectives.length !== 3 ? "disabled" : ""}>
+        <strong>1. Co-Sign Bidirectional Appraisal & Adopt Malleable Growth Mindset</strong>
+        <span class="small-muted">Confirm your updated 3X selection above, internalize teacher feedback, and reframe academic challenges (including Core subjects) as malleable skills rather than fixed traits.</span>
+      </button>
+      <button class="choice-btn" id="evalRoutine" ${state.selectedElectives.length !== 3 ? "disabled" : ""}>
+        <strong>2. Submit Final Selection Without Reflective Follow-Up</strong>
+        <span class="small-muted">Lock in your 3X selection above as an administrative routine without setting personal self-efficacy goals.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  buildSubjectPickerGrid(document.getElementById("evalSubjectGrid"));
+
+  document.getElementById("evalGrowth").onclick = () => {
+    syncElectiveMasteryDictionary();
+    state.engagement = Math.min(100, state.engagement + 14);
+    state.selfEfficacy = Math.min(100, state.selfEfficacy + 12);
+    state.wellbeing = Math.min(100, state.wellbeing + 6);
+    const finalNames = state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ");
+    state.logs.push({
+      phase: "Phase 3: Evaluation",
+      text: `Completed bidirectional appraisal and finalized S4 electives as: ${finalNames}. Built self-efficacy and growth mindset.`
+    });
+    state.step = "S4";
+    render();
+  };
+
+  document.getElementById("evalRoutine").onclick = () => {
+    syncElectiveMasteryDictionary();
+    state.engagement = Math.min(100, state.engagement + 4);
+    const finalNames = state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ");
+    state.logs.push({
+      phase: "Phase 3: Evaluation",
+      text: `Submitted final S4 elective combination (${finalNames}) without reflective reappraisal.`
+    });
+    state.step = "S4";
+    render();
+  };
+}
+
+function renderAllMetersHtml() {
+  const p = state.profile;
+  const coreRows = [
+    { key: "chi", label: "Core: Chinese Language" },
+    { key: "eng", label: "Core: English Language" },
+    { key: "math", label: "Core: Mathematics" }
+  ].map(item => {
+    const val = Math.round(state.coreMastery[item.key]);
+    return `
+      <div class="meter-row">
+        <span><strong>${item.label}</strong></span>
+        <div class="meter-bar"><div class="meter-fill core-fill" style="width:${Math.min(100, Math.max(0, val))}%"></div></div>
+        <span>${val}%</span>
+      </div>
+    `;
+  }).join("");
+
+  const elecRows = state.selectedElectives.map(id => {
+    const s = SUBJECTS.find(x => x.id === id);
+    const val = Math.round(state.subjectMastery[id] || 50);
+    const c = calcSubjectCongruency(p.code, s);
+    return `
+      <div class="meter-row">
+        <span><strong>${s.name.split("(")[0]}</strong> ${state.revealCode ? `(${c}/4)` : ""}</span>
+        <div class="meter-bar"><div class="meter-fill" style="width:${Math.min(100, Math.max(0, val))}%"></div></div>
+        <span>${val}%</span>
+      </div>
+    `;
+  }).join("");
+
+  return `<div style="margin-bottom:10px;">${coreRows}</div><div>${elecRows}</div>`;
+}
+
+function renderStudyBiasSelectorHtml() {
+  return `
+    <h3>Time Allocation Bias: Core Subjects (4C) vs. Electives (3X)</h3>
+    <p class="small-muted">Remember: Core Subject results in the HKDSE also depend on your natural profile fit AND whether you invest enough hardworking effort to secure a pass.</p>
+    <div class="bias-grid">
+      <div class="bias-card ${state.studyBiasMode === "CORE" ? "active" : ""}" id="biasCore">
+        <strong>Prioritize Core Subjects</strong>
+        <div class="small-muted" style="margin-top:4px;">Channel extra study hours into Chinese, English, and Mathematics to shore up weak Core foundations.</div>
+      </div>
+      <div class="bias-card ${state.studyBiasMode === "BALANCED" ? "active" : ""}" id="biasBalanced">
+        <strong>Balanced 4C + 3X Allocation</strong>
+        <div class="small-muted" style="margin-top:4px;">Divide revision hours evenly between Core requirements and your three Category A electives.</div>
+      </div>
+      <div class="bias-card ${state.studyBiasMode === "ELECTIVE" ? "active" : ""}" id="biasElective">
+        <strong>Prioritize Electives (3X)</strong>
+        <div class="small-muted" style="margin-top:4px;">Invest heavily in elective coursework and SBA, leaving Core subjects to rely on baseline ability.</div>
+      </div>
+    </div>
+  `;
+}
+
+function bindBiasSelectorEvents() {
+  document.getElementById("biasCore").onclick = () => { state.studyBiasMode = "CORE"; render(); };
+  document.getElementById("biasBalanced").onclick = () => { state.studyBiasMode = "BALANCED"; render(); };
+  document.getElementById("biasElective").onclick = () => { state.studyBiasMode = "ELECTIVE"; render(); };
+}
+
+function applyCoreProgress(effortLevel) {
+  if (effortLevel === "HIGH") state.hardworkingScore += 2;
+  else if (effortLevel === "MODERATE") state.hardworkingScore += 1;
+
+  if (state.studyBiasMode === "CORE") state.coreBiasScore += 2;
+  else if (state.studyBiasMode === "BALANCED") state.coreBiasScore += 1;
+
+  const biasMult = state.studyBiasMode === "CORE" ? 6.5 : (state.studyBiasMode === "BALANCED" ? 3.5 : 0.5);
+  const effortMult = effortLevel === "HIGH" ? 4.5 : (effortLevel === "MODERATE" ? 2.0 : -1.5);
+  const engBonus = (state.engagement - 50) * 0.06;
+
+  ["chi", "eng", "math"].forEach(k => {
+    const fitDrift = (state.profile.coreBase[k] - 50) * 0.08;
+    const totalDelta = fitDrift + biasMult + effortMult + engBonus;
+    state.coreMastery[k] = Math.max(20, Math.min(96, state.coreMastery[k] + totalDelta));
+  });
+}
+
+function renderS4(root) {
+  const congTotal = getTotalCongruency();
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Secondary 4 · Age 15 · Entering the Senior Secondary Environment</div>
+    <h2>S4 Study Life: Person–Environment Reality Sets In</h2>
+    <p>You are now studying Chinese, English, Mathematics, and CSD alongside <strong>${state.selectedElectives.map(id => SUBJECTS.find(x => x.id === id).name).join(", ")}</strong>.</p>
+    <p>${congTotal >= 8
+      ? "In line with <strong>Holland (1973, in Walsh, 1989)</strong>, your elective classrooms match your personality dispositions. Learning feels energizing rather than alienating."
+      : (congTotal >= 5
+          ? "Your elective combination is mixed: some lessons resonate with your strengths, while others feel like swimming against the tide of environmental press."
+          : "As <strong>Pervin (1968)</strong> and <strong>Holland (1973)</strong> predict, severe incongruence between your personality and your daily classroom settings creates cognitive dissonance and fatigue.")}</p>
+
+    <h3>Current Core & Elective Mastery Standing</h3>
+    ${renderAllMetersHtml()}
+
+    <div class="pause-card" style="margin-top:18px; padding:18px;">
+      <div class="year-stamp">⏸ Time Stops · Age 15 Reflection</div>
+      <p style="margin-bottom:6px;"><strong>Question:</strong> Looking at ${state.profile.name}'s S4 classrooms and Core foundations, are they studying for their <em>Perceived Self</em> or someone else's <em>Ideal Self</em>?</p>
+      <textarea class="reflection-input" id="refS4" rows="2" placeholder="Optional note for your presentation discussion...">${state.reflections.S4 || ""}</textarea>
+    </div>
+
+    ${renderStudyBiasSelectorHtml()}
+
+    <h3>Pick Your S4 Annual Study Approach (1in8b.life Mechanic)</h3>
+    <div class="choice-list">
+      <button class="choice-btn" id="s4FocusConcept">
+        <strong>1. Diligent Conceptual Inquiry & Active SBA Exploration (Hardworking & Engaged)</strong>
+        <span class="small-muted">Commit consistent daily effort to understanding core principles and connecting coursework to your strengths.</span>
+      </button>
+      <button class="choice-btn" id="s4FocusDrill">
+        <strong>2. High-Intensity Past-Paper Drilling & Mechanical Memorization (Hardworking Grind)</strong>
+        <span class="small-muted">Push through heavy mechanical drilling across subjects to force grade gains, even in low-fit classrooms.</span>
+      </button>
+      <button class="choice-btn" id="s4FocusSocial">
+        <strong>3. Prioritize Peer Subculture, Extracurricular Clubs & Social Life</strong>
+        <span class="small-muted">Invest energy in peer relationships and school clubs while keeping academic revision light.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  bindBiasSelectorEvents();
+
+  const applyS4Step = (mode) => {
+    const refEl = document.getElementById("refS4");
+    if (refEl) state.reflections.S4 = refEl.value;
+
+    const elecBiasBonus = state.studyBiasMode === "ELECTIVE" ? 4.5 : (state.studyBiasMode === "BALANCED" ? 2.5 : -0.5);
+
+    state.selectedElectives.forEach(id => {
+      const s = SUBJECTS.find(x => x.id === id);
+      const c = calcSubjectCongruency(state.profile.code, s);
+      const engBonus = (state.engagement - 50) * 0.16;
+      let delta = (c - 1.4) * 3.8 + engBonus + elecBiasBonus;
+
+      if (mode === "CONCEPT") {
+        delta += c >= 2 ? 6.5 : 1.0;
+      } else if (mode === "DRILL") {
+        delta += 5.0;
+      } else if (mode === "SOCIAL") {
+        delta += 0.5;
+      }
+      state.subjectMastery[id] = Math.max(18, Math.min(98, state.subjectMastery[id] + delta));
+    });
+
+    if (mode === "CONCEPT") {
+      applyCoreProgress("HIGH");
+      state.wellbeing += congTotal >= 7 ? 5 : -4;
+    } else if (mode === "DRILL") {
+      applyCoreProgress("HIGH");
+      state.wellbeing += congTotal >= 8 ? -3 : -12;
+    } else {
+      applyCoreProgress("LOW");
+      state.wellbeing = Math.min(100, state.wellbeing + 9);
+    }
+
+    state.wellbeing = Math.max(10, Math.min(100, state.wellbeing));
+    state.logs.push({
+      phase: "S4 Academic Year",
+      text: `Completed S4 with '${mode}' approach and '${state.studyBiasMode}' time allocation.`
+    });
+    state.step = "S5_DROP";
+    render();
+  };
+
+  document.getElementById("s4FocusConcept").onclick = () => applyS4Step("CONCEPT");
+  document.getElementById("s4FocusDrill").onclick = () => applyS4Step("DRILL");
+  document.getElementById("s4FocusSocial").onclick = () => applyS4Step("SOCIAL");
+}
+
+function renderS5Drop(root) {
+  let minId = state.selectedElectives[0];
+  state.selectedElectives.forEach(id => {
+    if (state.subjectMastery[id] < state.subjectMastery[minId]) minId = id;
+  });
+  const weakSubj = SUBJECTS.find(x => x.id === minId);
+  const weakScore = Math.round(state.subjectMastery[minId]);
+
+  const isForcedRisk = weakScore < 47 && state.engagement < 66;
+
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Secondary 5 · Age 16 · Mid-Year Streaming & Retention Review</div>
+    <h2>S5 Crossroads: The 3X vs. 2X Subject Drop Dilemma</h2>
+    <p>In Hong Kong secondary schools, S5 brings peak SBA deadlines and mock exam pressure. Under <strong>Moos's System Maintenance</strong> dimension and <strong>Holland's Vocational Stability</strong> hypothesis, incongruent or unengaged students frequently face subject attrition in S5.</p>
+
+    <h3>S5 Mid-Year Core & Elective Standing</h3>
+    ${renderAllMetersHtml()}
+
+    <div style="margin:16px 0; padding:14px; border-radius:8px; background:${isForcedRisk ? "var(--warn-soft)" : "var(--gold-soft)"}; border-left:3px solid ${isForcedRisk ? "var(--warn)" : "var(--gold)"};">
+      ${isForcedRisk
+        ? `<strong>⚠️ School Administrative Warning (Potential Forced Drop):</strong> Your performance in <strong>${weakSubj.name}</strong> has fallen to <strong>${weakScore}%</strong>. The Vice-Principal and Subject Panel Chair summon you to drop ${weakSubj.name} so you do not pull down the school's HKDSE passing rate.`
+        : `<strong>📋 S5 Mid-Year Appraisal:</strong> Your lowest elective is <strong>${weakSubj.name}</strong> (${weakScore}%). You may retain all 3 electives (3X) or strategically drop ${weakSubj.name} (to 2X) so you can reallocate precious hours to your Core Subjects and remaining two electives.`}
+    </div>
+
+    <div class="choice-list" id="s5DropChoices"></div>
+  `;
+  root.appendChild(card);
+
+  const list = document.getElementById("s5DropChoices");
+
+  if (isForcedRisk) {
+    const btnForced = document.createElement("button");
+    btnForced.className = "choice-btn";
+    btnForced.innerHTML = `
+      <strong>1. Comply with School's Forced Drop of ${weakSubj.name} (3X → 2X)</strong>
+      <span class="small-muted">Accept the school's administrative decision to withdraw from ${weakSubj.name} and use the freed timetable periods for Core and remaining elective study.</span>
+    `;
+    btnForced.onclick = () => {
+      state.selectedElectives = state.selectedElectives.filter(id => id !== minId);
+      state.droppedSubject = weakSubj;
+      state.dropReason = "Forcibly dropped by school administration in S5 due to low P–E congruency and unbuffered performance.";
+      state.wellbeing = Math.max(10, state.wellbeing - 10);
+      state.coreMastery.chi += 4;
+      state.coreMastery.eng += 4;
+      state.coreMastery.math += 4;
+      state.selectedElectives.forEach(id => { state.subjectMastery[id] += 5; });
+      state.logs.push({
+        phase: "S5 Subject Drop Crisis",
+        text: `Forcibly dropped from ${weakSubj.name} by school administration (3X → 2X).`
+      });
+      state.step = "S5";
+      render();
+    };
+    list.appendChild(btnForced);
+
+    if (state.enableNeufeld) {
+      const btnAppeal = document.createElement("button");
+      btnAppeal.className = "choice-btn";
+      btnAppeal.innerHTML = `
+        <strong>2. Invoke Neufeld Negotiation & Evaluation: Appeal with Targeted SBA Action Plan</strong>
+        <span class="small-muted">Negotiate a conditional retention contract with the department head, aligning your SBA project with your strengths to stay in ${weakSubj.name}.</span>
+      `;
+      btnAppeal.onclick = () => {
+        state.engagement = Math.min(100, state.engagement + 8);
+        state.subjectMastery[minId] += 8;
+        state.hardworkingScore += 1;
+        state.logs.push({
+          phase: "S5 Negotiation Appeal",
+          text: `Successfully negotiated to retain ${weakSubj.name} using a tailored SBA remediation agreement.`
+        });
+        state.step = "S5";
+        render();
+      };
+      list.appendChild(btnAppeal);
+    }
+  } else {
+    const btnKeepAll = document.createElement("button");
+    btnKeepAll.className = "choice-btn";
+    btnKeepAll.innerHTML = `
+      <strong>1. Persist with All 3 Electives (Full 4C + 3X Portfolio)</strong>
+      <span class="small-muted">Continue studying all three electives alongside the four Core subjects for maximum JUPAS flexibility.</span>
+    `;
+    btnKeepAll.onclick = () => {
+      state.logs.push({
+        phase: "S5 Retention Decision",
+        text: `Retained all 3 electives entering senior S5–S6 preparation.`
+      });
+      state.step = "S5";
+      render();
+    };
+    list.appendChild(btnKeepAll);
+
+    const btnVolDrop = document.createElement("button");
+    btnVolDrop.className = "choice-btn";
+    btnVolDrop.innerHTML = `
+      <strong>2. Voluntary Adaptive Drop of ${weakSubj.name} (3X → 2X Strategic Consolidation)</strong>
+      <span class="small-muted">Proactively drop ${weakSubj.name} after self-evaluation so you can focus extra effort on Chinese, English, Mathematics, and your two strongest electives.</span>
+    `;
+    btnVolDrop.onclick = () => {
+      state.selectedElectives = state.selectedElectives.filter(id => id !== minId);
+      state.droppedSubject = weakSubj;
+      state.dropReason = "Voluntarily dropped in S5 after self-evaluation to optimize P–E balance and Core subject focus.";
+      state.wellbeing = Math.min(100, state.wellbeing + 7);
+      state.coreMastery.chi += 5;
+      state.coreMastery.eng += 5;
+      state.coreMastery.math += 5;
+      state.selectedElectives.forEach(id => { state.subjectMastery[id] += 6; });
+      state.logs.push({
+        phase: "S5 Strategic Drop",
+        text: `Voluntarily dropped ${weakSubj.name} (3X → 2X) to concentrate energy on Core subjects and highest-fit electives.`
+      });
+      state.step = "S5";
+      render();
+    };
+    list.appendChild(btnVolDrop);
+  }
+}
+
+function renderS5(root) {
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Secondary 5 Late Term · Age 16–17 · SBA & Environmental Stressors</div>
+    <h2>S5 School-Based Assessment (SBA) & Environmental Stressors</h2>
+    <p>Remember your environmental context: <em>${state.profile.fourFront.stressors}</em>. Meanwhile, your school resources offer: <em>${state.profile.fourFront.resources}</em>.</p>
+
+    ${renderStudyBiasSelectorHtml()}
+
+    <h3>How Do You Navigate the S5 SBA & Mock Preparation Season?</h3>
+    <div class="choice-list">
+      <button class="choice-btn" id="s5Engage">
+        <strong>1. Activate Environmental Resources & Peer Co-Regulation (Neufeld Participation)</strong>
+        <span class="small-muted">Anchor your SBA projects in your personal strengths, attend after-school teacher consultations, and study collaboratively with peers.</span>
+      </button>
+      <button class="choice-btn" id="s5Solo">
+        <strong>2. Isolate & Grind Past Papers Alone Until 2:00 AM</strong>
+        <span class="small-muted">Force yourself through solitary late-night exam drilling across Core and Elective papers despite exhaustion and home stressors.</span>
+      </button>
+      <button class="choice-btn" id="s5Nothing">
+        <strong>3. Do Nothing in Addition (Coast Passively Through S5)</strong>
+        <span class="small-muted">Submit only the bare minimum routine homework without seeking school resources, peer study groups, or extra revision hours.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  bindBiasSelectorEvents();
+
+  const elecBiasBonus = state.studyBiasMode === "ELECTIVE" ? 4.0 : (state.studyBiasMode === "BALANCED" ? 2.0 : 0);
+
+  document.getElementById("s5Engage").onclick = () => {
+    state.engagement = Math.min(100, state.engagement + 10);
+    state.wellbeing = Math.min(100, state.wellbeing + 6);
+    applyCoreProgress("HIGH");
+    state.selectedElectives.forEach(id => {
+      const s = SUBJECTS.find(x => x.id === id);
+      const c = calcSubjectCongruency(state.profile.code, s);
+      state.subjectMastery[id] = Math.min(99, state.subjectMastery[id] + 4 + c + elecBiasBonus);
+    });
+    state.logs.push({
+      phase: "S5 SBA & Study Season",
+      text: `Leveraged environmental resources and peer co-regulation with '${state.studyBiasMode}' study allocation.`
+    });
+    state.step = "S6";
+    render();
+  };
+
+  document.getElementById("s5Solo").onclick = () => {
+    state.wellbeing = Math.max(10, state.wellbeing - 10);
+    applyCoreProgress("HIGH");
+    state.selectedElectives.forEach(id => {
+      state.subjectMastery[id] = Math.min(99, state.subjectMastery[id] + 4.5 + elecBiasBonus);
+    });
+    state.logs.push({
+      phase: "S5 SBA & Study Season",
+      text: `Endured solitary late-night exam drilling under heavy environmental stressors (${state.studyBiasMode} focus).`
+    });
+    state.step = "S6";
+    render();
+  };
+
+  document.getElementById("s5Nothing").onclick = () => {
+    state.engagement = Math.max(10, state.engagement - 6);
+    applyCoreProgress("LOW");
+    state.selectedElectives.forEach(id => {
+      const s = SUBJECTS.find(x => x.id === id);
+      const c = calcSubjectCongruency(state.profile.code, s);
+      const drift = c >= 3 ? 1 : -3;
+      state.subjectMastery[id] = Math.max(15, Math.min(99, state.subjectMastery[id] + drift));
+    });
+    state.logs.push({
+      phase: "S5 SBA & Study Season",
+      text: `Did nothing in addition during S5; coasted passively without extra revision or environmental resource activation.`
+    });
+    state.step = "S6";
+    render();
+  };
+}
+
+function renderS6(root) {
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.innerHTML = `
+    <div class="year-stamp">Secondary 6 · Age 17–18 · Study Leave & The HKDSE Examination</div>
+    <h2>Final Sprint: S6 Study Leave & Sitting the HKDSE</h2>
+    <p>Three years after your S3 elective form, you enter S6 study leave as Candidate <strong>${state.profile.name}</strong>.</p>
+
+    <h3>Pre-DSE Core & Elective Readiness</h3>
+    ${renderAllMetersHtml()}
+
+    <div class="pause-card" style="margin-top:18px; padding:18px;">
+      <div class="year-stamp">⏸ Time Stops · Age 17 Final Reflection</div>
+      <p style="margin-bottom:6px;"><strong>Question:</strong> In this student's journey, how did the interplay of <em>RIASEC Congruency</em>, <em>Tripartite Engagement</em>, and <em>Core vs. Elective Effort</em> shape their outcome?</p>
+      <textarea class="reflection-input" id="refS6" rows="2" placeholder="Optional final reflection...">${state.reflections.S6 || ""}</textarea>
+    </div>
+
+    <h3>Choose Your Final S6 Study Leave Strategy</h3>
+    <div class="choice-list">
+      <button class="choice-btn" id="s6CoreRescue">
+        <strong>1. Intensive Core Subject Consolidation & Past-Paper Sprint</strong>
+        <span class="small-muted">Dedicate study leave to securing passing and competitive grades in Chinese, English, and Mathematics alongside steady elective review.</span>
+      </button>
+      <button class="choice-btn" id="s6ElectivePeak">
+        <strong>2. All-Out Elective Star-Hunting Sprint</strong>
+        <span class="small-muted">Pour maximum study leave energy into your Category A electives to chase 5* / 5** distinctions.</span>
+      </button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  const finishS6 = (s6Mode) => {
+    const refEl = document.getElementById("refS6");
+    if (refEl) state.reflections.S6 = refEl.value;
+
+    state.hardworkingScore += 1;
+    if (s6Mode === "CORE_SPRINT") {
+      state.coreBiasScore += 2;
+      ["chi", "eng", "math"].forEach(k => {
+        state.coreMastery[k] = Math.min(96, state.coreMastery[k] + 6);
+      });
+      state.selectedElectives.forEach(id => {
+        state.subjectMastery[id] = Math.min(99, state.subjectMastery[id] + 2);
+      });
+      state.logs.push({
+        phase: "S6 Study Leave",
+        text: "Focused S6 study leave on consolidating Chinese, English, and Mathematics while maintaining electives."
+      });
+    } else {
+      ["chi", "eng", "math"].forEach(k => {
+        state.coreMastery[k] = Math.min(96, state.coreMastery[k] + 1);
+      });
+      state.selectedElectives.forEach(id => {
+        const s = SUBJECTS.find(x => x.id === id);
+        const c = calcSubjectCongruency(state.profile.code, s);
+        state.subjectMastery[id] = Math.min(99, state.subjectMastery[id] + 4 + c);
+      });
+      state.logs.push({
+        phase: "S6 Study Leave",
+        text: "Focused S6 study leave on maximizing Category A elective performance."
+      });
+    }
+    state.step = "SUMMARY";
+    render();
+  };
+
+  document.getElementById("s6CoreRescue").onclick = () => finishS6("CORE_SPRINT");
+  document.getElementById("s6ElectivePeak").onclick = () => finishS6("ELECTIVE_SPRINT");
+}
+
+function scoreToDSEGrade(score) {
+  if (score >= 88) return { grade: "5**", points: 7 };
+  if (score >= 80) return { grade: "5*", points: 6 };
+  if (score >= 72) return { grade: "5", points: 5 };
+  if (score >= 62) return { grade: "4", points: 4 };
+  if (score >= 50) return { grade: "3", points: 3 };
+  if (score >= 38) return { grade: "2", points: 2 };
+  return { grade: "1", points: 1 };
+}
+
+function renderSummary(root) {
+  const p = state.profile;
+
+  const isHardworking = state.hardworkingScore >= 4;
+  const isCoreFocused = state.coreBiasScore >= 3;
+
+  const computeFinalCoreScore = (key) => {
+    let raw = state.coreMastery[key] + (state.wellbeing - 55) * 0.08;
+    if (isHardworking && isCoreFocused) {
+      raw = Math.max(raw, 51); // Guarantees at least Level 3
+    } else if (isHardworking || isCoreFocused) {
+      raw = Math.max(raw, 40); // Guarantees at least Level 2 (HKDSE Pass)
+    }
+    return Math.min(96, Math.max(22, raw));
+  };
+
+  const chiScore = computeFinalCoreScore("chi");
+  const engScore = computeFinalCoreScore("eng");
+  const mathScore = computeFinalCoreScore("math");
+
+  const chiGrade = scoreToDSEGrade(chiScore);
+  const engGrade = scoreToDSEGrade(engScore);
+  const mathGrade = scoreToDSEGrade(mathScore);
+
+  const allGrades = [
+    { name: "Core: Chinese Language", code: "A/S/C", cong: calcCoreCongruencyLabel(p, "chi"), ...chiGrade },
+    { name: "Core: English Language", code: "A/E/S", cong: calcCoreCongruencyLabel(p, "eng"), ...engGrade },
+    { name: "Core: Mathematics (Compulsory)", code: "I/C/R", cong: calcCoreCongruencyLabel(p, "math"), ...mathGrade },
+    { name: "Core: Citizenship & Social Dev.", code: "Core", cong: "Core", grade: "Attained", points: 0 }
+  ];
+
+  state.selectedElectives.forEach(id => {
+    const s = SUBJECTS.find(x => x.id === id);
+    const c = calcSubjectCongruency(p.code, s);
+    let finalM = state.subjectMastery[id] + (state.wellbeing - 55) * 0.1;
+    if (isHardworking && state.studyBiasMode !== "CORE") {
+      finalM = Math.max(finalM, 40);
+    }
+    const g = scoreToDSEGrade(finalM);
+    allGrades.push({
+      name: `Elective: ${s.name}`,
+      code: `${s.primary}${s.secondary}`,
+      cong: `${c}/4`,
+      ...g
+    });
+  });
+
+  const pointList = allGrades.filter(x => x.points > 0).map(x => x.points).sort((a, b) => b - a);
+  const best5 = pointList.slice(0, 5).reduce((a, b) => a + b, 0);
+
+  const meets332A = chiGrade.points >= 3 && engGrade.points >= 3 && mathGrade.points >= 2;
+  const meets22222 = pointList.slice(0, 5).every(pt => pt >= 2);
+
+  let jupasOutcome = "";
+  if (meets332A && best5 >= 26) {
+    jupasOutcome = "JUPAS Band A1 Offer — High-Congruence Flagship University Degree (Met 332A Core Entrance + High Best 5 Attainment)";
+  } else if (meets332A && best5 >= 20) {
+    jupasOutcome = "JUPAS UGC-Funded Degree Offer — Solid Local University Placement aligned with developed strengths";
+  } else if (!meets332A && best5 >= 20) {
+    jupasOutcome = "High Elective Score but Missed '332A' Core University Minimum — Eligible for Sub-Degree / Overseas / Conditional Articulation";
+  } else if (meets22222 && best5 >= 14) {
+    jupasOutcome = "Sub-Degree / Higher Diploma Pathway (Met 5-Subject Level 2+ Pass) — Eligible for Associate Degree or specialized Higher Diploma";
+  } else {
+    jupasOutcome = "Diploma of Applied Education / Workplace Transition — Low P–E congruence or insufficient Core effort resulted in Core/Elective shortfalls";
+  }
+
+  const card = document.createElement("div");
+  card.className = "summary-card";
+  card.innerHTML = `
+    <div class="year-stamp">HKDSE Results Release Day · 1 in 50,000 Life Record</div>
+    <h2>Secondary School Life Card: ${p.name}</h2>
+    <p><strong>Revealed True Holland Code:</strong> <span style="font-family:monospace; font-size:1.1rem; font-weight:bold;">${p.code}</span> (${p.codeDesc})</p>
+    <p><strong>Experimental Setup:</strong> Holland Code ${state.revealCode ? "Revealed" : "Hidden (Blind Mode)"} · Neufeld Tripartite Engagement Cycle ${state.enableNeufeld ? "ENABLED" : "DISABLED (Static Fit Mode)"}</p>
+
+    <div class="life-memorial">
+      <h3>Official HKDSE Examination Results Slip</h3>
+      <table class="dse-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Domain / Code</th>
+            <th>Student Fit</th>
+            <th>HKDSE Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${allGrades.map(g => `
+            <tr>
+              <td><strong>${g.name}</strong></td>
+              <td><code>${g.code}</code></td>
+              <td>${g.cong}</td>
+              <td><strong>${g.grade}</strong></td>
+            </tr>
+          `).join("")}
+          ${state.droppedSubject ? `
+            <tr style="color:var(--warn);">
+              <td><em>Dropped in S5: ${state.droppedSubject.name}</em></td>
+              <td><code>${state.droppedSubject.primary}${state.droppedSubject.secondary}</code></td>
+              <td>${calcSubjectCongruency(p.code, state.droppedSubject)}/4</td>
+              <td><em>Withdrawn (S5)</em></td>
+            </tr>
+          ` : ""}
+        </tbody>
+      </table>
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">
+        <div><strong>Best 5 HKDSE Score:</strong> ${best5} / 35 pts</div>
+        <div><strong>Core '332A' University Requirement:</strong> ${meets332A ? "✅ Met" : "❌ Not Met"}</div>
+        <div><strong>Final Engagement:</strong> ${Math.round(state.engagement)} / 100</div>
+        <div><strong>Well-being:</strong> ${Math.round(state.wellbeing)} / 100</div>
+      </div>
+      <p style="margin-top:12px; margin-bottom:0;"><strong>Post-Secondary Pathway:</strong> ${jupasOutcome}</p>
+    </div>
+
+    <h3 style="margin-top:24px;">Theoretical Debriefing for Presentation (Walsh, 1989 & Neufeld et al., 2006)</h3>
+    <div class="log-entry">
+      <p><strong>1. Holland's Congruency Across Electives & Cores (Walsh, 1989):</strong> Your final elective combination achieved a RIASEC congruency of <strong>${getTotalCongruency()}/${state.selectedElectives.length * 4}</strong>. Moreover, Core Chinese, English, and Mathematics grades reflected both ${p.name}'s baseline profile fit and whether sufficient hardworking effort was invested to secure a pass.</p>
+      <p><strong>2. Neufeld et al.'s (2006) Tripartite Engagement Cycle:</strong> ${state.enableNeufeld ? "By engaging in <em>Negotiation</em> (teacher/parent accommodation), <em>Participation</em> (S3 tasting classes), and <em>Evaluation</em> (bidirectional appraisal & full pre-S4 subject adjustment), you dynamically mediated the P–E interaction rather than treating fit as static." : "Because the Tripartite Engagement Cycle was turned OFF, static S3 misfit or environmental stressors went unnegotiated—illustrating what Neufeld et al. (2006) term 'environmental neglect'."}</p>
+      ${state.droppedSubject ? `<p><strong>3. S5 Attrition Mechanic:</strong> ${state.dropReason}</p>` : ""}
+    </div>
+
+    <h3>Chronological Life Log</h3>
+    ${state.logs.map(l => `<div class="log-entry"><strong>${l.phase}:</strong> ${l.text}</div>`).join("")}
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+      <button class="btn" id="btnReplaySame">Replay Same Student (Compare Toggle Conditions)</button>
+      <button class="btn btn-secondary" id="btnNewStudent">Return to Title Screen (Draw Another Random Student)</button>
+    </div>
+  `;
+  root.appendChild(card);
+
+  document.getElementById("btnReplaySame").onclick = () => {
+    startNewLife(state.profile);
+  };
+  document.getElementById("btnNewStudent").onclick = () => {
+    state.step = "START";
+    render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>
